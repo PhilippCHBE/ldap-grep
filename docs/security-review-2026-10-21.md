@@ -20,6 +20,8 @@ in der Arbeitskopie umgesetzt und unter 2.3.1 im CHANGELOG dokumentiert:
   meldet keine bekannten Schwachstellen.
 - F6: CSV/TSV entschärft Formelpräfixe in Werten und Überschriften mit einem Apostroph,
   auch hinter führenden Leer-/Steuerzeichen. JSON/LDIF stehen für unveränderte Rohwerte bereit.
+  Sämtliche CSV/TSV-Zellen sind gequotet, damit auch CR innerhalb einer Zelle bleibt;
+  NUL wird als sichtbares `\x00` ausgegeben, einschließlich unter Python 3.9/3.10.
 - F7: Custom, Demo und fehlgeschlagene Profilwechsel löschen alte Verbindungsdaten;
   Custom aktiviert Zertifikatsprüfung und übernimmt keine fremden TLS-/Passwortfelder.
 - F8: Iterative, lazy Gruppenauflösung stoppt beim passenden Ergebnislimit. Gemeinsame Budgets
@@ -54,9 +56,9 @@ Zusätzliche Härtungen für Version 2.3.1 nach dem Interview:
 - Wirkungsloses or True ersetzt; echte lokale TLS-Tests, sichere CA-/Hostname-Hinweise,
   Exportrechte- und Shell-Quoting-Tests. Optionaler Samba/AD-Testplan dokumentiert.
 
-Abschlussprüfung: **185 Tests bestanden, 3 übersprungen** unter Windows/Python 3.13
+Abschlussprüfung: **186 Tests bestanden, 3 übersprungen** unter Windows/Python 3.13
 mit pyasn1 0.6.4. Avast ersetzt lokale TLS-Zertifikate; die drei Zertifikatstests
-erkennen dies ausdrücklich. Zusätzliche isolierte Linux-Prüfung: **187 bestanden,
+erkennen dies ausdrücklich. Zusätzliche isolierte Linux-Prüfung: **188 bestanden,
 1 übersprungen** (PowerShell dort nicht vorhanden); alle TLS- und Unix-Rechtefälle bestanden.
 Wheel und Source-Archiv wurden lokal neu gebaut; Quellgleichheit, Decoder-Mindestversion,
 enthaltene Sicherheitsregressionen und CI-YAML wurden geprüft. Es wurde nichts veröffentlicht.

@@ -1,3 +1,6 @@
+import csv
+import io
+
 import pytest
 
 from ldapgrep import format as fmt
@@ -204,7 +207,7 @@ def test_renderers():
     rows = [{"dn": "CN=a", "name": "a", "disabled": False, "memberOf": ["x", "y"]},
             {"dn": "CN=b", "name": "b", "disabled": True, "extra": "ü"}]
     csv_text = fmt.to_csv(rows)
-    assert csv_text.splitlines()[0] == "dn,name,disabled,memberOf,extra"
+    assert next(csv.reader(io.StringIO(csv_text))) == ["dn", "name", "disabled", "memberOf", "extra"]
     assert "x; y" in csv_text
     ldif = fmt.to_ldif(rows)
     assert "dn: CN=a" in ldif and "memberOf: x" in ldif and "extra:: " in ldif    # non-ascii -> base64

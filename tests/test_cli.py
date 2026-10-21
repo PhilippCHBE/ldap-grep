@@ -1,3 +1,5 @@
+import csv
+import io
 import json
 import os
 from pathlib import Path
@@ -86,8 +88,9 @@ def test_export_csv_auto(capsys, tmp_path):
     from ldapgrep.exports import default_export_dir
     files = list(default_export_dir().glob("moser_*.csv"))
     assert len(files) == 1
-    lines = files[0].read_text(encoding="utf-8").splitlines()
-    assert lines[0].startswith("dn,name,disabled") and len(lines) == 3
+    with files[0].open(encoding="utf-8", newline="") as stream:
+        rows = list(csv.reader(stream))
+    assert rows[0][:3] == ["dn", "name", "disabled"] and len(rows) == 3
 
 
 def test_group_recursive_count_and_formats(capsys):
@@ -124,7 +127,9 @@ def test_from_file_fields_sort(capsys, tmp_path):
     f.write_text("mmueller\nafischer\n# comment\nnobody\n", encoding="utf-8")
     code, out, err = run(capsys, "user", "--from-file", str(f), "--format", "csv", "--fields", "name,email", "--sort=-name")
     assert code == 0
-    assert out.splitlines() == ["name,email", "mmueller,max.muller@demo.example.com", "afischer,anna.fischer@demo.example.com"]
+    assert list(csv.reader(io.StringIO(out))) == [
+        ["name", "email"], ["mmueller", "max.muller@demo.example.com"],
+        ["afischer", "anna.fischer@demo.example.com"]]
     assert "no match for 'nobody'" in err
 
 

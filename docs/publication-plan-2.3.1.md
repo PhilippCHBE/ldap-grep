@@ -154,8 +154,8 @@ Lokale Hooks sind übergehbar; serverseitige erforderliche CI-Prüfungen ergänz
 | CI | Actions auf volle SHAs; contents:read als Standard. Separater Test-/Scan-/Buildjob und minimaler Publishjob, nur dort id-token:write. Stabile vX.Y.Z-Tags, Paketversion und main-Abstammung prüfen. | YAML umgesetzt. Zusätzliche manuelle PyPI-Freigabe noch offen. |
 | Tests | Echte Detailpanel-Assertion, lokale TLS-Tests mit Positivkontrolle, unbekannter CA, falschem Host und verweigertem StartTLS. Optionale Samba/AD-Anleitung. | Lokale Tests ausgewählt und umgesetzt; kein Samba-CI oder Produktiv-AD-Test. |
 
-Die vollständige Suite bestand lokal mit **185 Tests und 3 expliziten TLS-Skips** unter
-Windows (Avast ersetzt Loopback-Zertifikate) und **187 Tests und 1 Skip** unter Linux
+Die vollständige Suite bestand lokal mit **186 Tests und 3 expliziten TLS-Skips** unter
+Windows (Avast ersetzt Loopback-Zertifikate) und **188 Tests und 1 Skip** unter Linux
 (PowerShell nicht installiert). Sämtliche TLS-Fälle und Unix-Rechteprüfungen liefen unter
 Linux erfolgreich; die Windows-DACL und PowerShell-Quoting-Prüfung liefen unter Windows.
 

@@ -23,9 +23,16 @@ from ldapgrep.config import ConfigError, Settings, load_settings
 ])
 def test_spreadsheet_values_and_headers_are_safe(delimiter, payload):
     row = next(csv.reader(io.StringIO(fmt.to_csv([{payload: payload}], delimiter=delimiter))))
-    assert row == ["'" + payload]
+    assert row == ["'" + payload.replace("\x00", "\\x00")]
     rows = list(csv.reader(io.StringIO(fmt.to_csv([{payload: payload}], delimiter=delimiter))))
-    assert rows[1] == ["'" + payload]
+    assert rows[1] == ["'" + payload.replace("\x00", "\\x00")]
+
+
+def test_spreadsheet_embedded_nul_is_visible_and_json_preserves_it():
+    rows = [{"plain\x00header": "plain\x00value"}]
+    decoded = list(csv.reader(io.StringIO(fmt.to_csv(rows))))
+    assert decoded == [["plain\\x00header"], ["plain\\x00value"]]
+    assert json.loads(fmt.to_json(rows)) == rows
 
 
 def test_spreadsheet_multivalue_fields_and_raw_json(tmp_path):

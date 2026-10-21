@@ -195,20 +195,14 @@ Global options go before or after the command (`ldapgrep --demo user x` and `lda
 
 | Option | Meaning |
 |---|---|
-| `--view compact|detail|full|raw` | How much per entry. `raw` = every attribute, decoded (SIDs, GUIDs, FILETIME dates, UAC flags). The spellings `--full`, `--detail`, `--all-attributes` work as shortcuts. |
+| `--view compact\|detail\|full\|raw` | How much per entry. `raw` = every attribute, decoded (SIDs, GUIDs, FILETIME dates, UAC flags). The spellings `--full`, `--detail`, `--all-attributes` work as shortcuts. |
 | `--memberof` / `-m`, `--recursive` / `-r` | Include groups; resolve nested groups (server side on AD via `LDAP_MATCHING_RULE_IN_CHAIN`, client side elsewhere). |
 | `--active` / `--disabled` / `--locked` | Account state filters. |
-
-The user views decode the account status for you: `disabled` / `locked` / `password_expired`
-(only shown when true in compact/detail, always in full), `passwordExpires` and `pwdLastSet` as
-readable dates (`never` when the password does not expire, from AD's computed
-`msDS-UserPasswordExpiryTimeComputed`), plus the raw `account_flags` from `userAccountControl`.
-On OpenLDAP/389ds `disabled` is derived from `nsAccountLock` / `pwdAccountLockedTime` instead.
 | `--exact` / `--contains` | Match mode (default is prefix match). |
 | `--filter "(department=IT)"`, `--base OU=...` | Narrow a user search with an extra LDAP filter / OU. |
 | `--from-file logins.txt` | Bulk lookup, one term per line (`-` = stdin). Lines starting with `#` are ignored. |
 | `--attrs a,b` | Request additional attributes. |
-| `--format json|table|csv|tsv|ldif|yaml|list|dn` | Output format. Default: table on a terminal, JSON when piped or redirected. |
+| `--format json\|table\|csv\|tsv\|ldif\|yaml\|list\|dn` | Output format. Default: table on a terminal, JSON when piped or redirected. |
 | `--fields name,email,disabled` | Pick / order columns. `--sort name`, `--sort=-lastLogon`. |
 | `--output FILE` / `-o auto` | Write to a file (`auto` = timestamped name). |
 | `--limit N`, `--page-size N` | Result / paging control (no more 1000-entry limit). |
@@ -219,6 +213,12 @@ On OpenLDAP/389ds `disabled` is derived from `nsAccountLock` / `pwdAccountLocked
 | `--profile NAME`, `--config FILE` | Pick a `[profile:NAME]` section / a specific config file. |
 | `-v`, `-vv`, `-q`, `--no-color` | Diagnostics on stderr (`-vv` = ldap3 protocol log), quiet, no colors. |
 | `--demo` | Use the built-in demo directory. |
+
+The user views decode the account status for you: `disabled` / `locked` / `password_expired`
+(only shown when true in compact/detail, always in full), `passwordExpires` and `pwdLastSet` as
+readable dates (`never` when the password does not expire, from AD's computed
+`msDS-UserPasswordExpiryTimeComputed`), plus the raw `account_flags` from `userAccountControl`.
+On OpenLDAP/389ds `disabled` is derived from `nsAccountLock` / `pwdAccountLockedTime` instead.
 
 **Exit codes** follow grep: `0` matches found, `1` no match, `2` usage / config error,
 `3` connection or authentication error, `4` other LDAP error.
@@ -415,7 +415,9 @@ Review and redact directory data before sharing it in issues or support requests
 
 CSV and TSV exports neutralize formula prefixes in values and column headers with a leading
 apostrophe, including prefixes hidden behind whitespace/control characters. This also applies
-to negative-looking text. Use JSON or LDIF when you need unchanged values for further processing.
+to negative-looking text. Every CSV/TSV cell is quoted, including cells containing carriage
+returns. NUL bytes are displayed as `\x00` for compatibility with older CSV readers/writers.
+Use JSON or LDIF when you need unchanged values for further processing.
 
 Group expansion and `memberof` share per-operation work budgets: `group_max_queries = 1000`
 (including pages), `group_max_entries = 10000`, `group_max_depth = 64`, and

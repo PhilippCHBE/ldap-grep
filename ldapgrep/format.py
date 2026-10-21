@@ -360,7 +360,7 @@ def to_csv(rows: Sequence[dict[str, Any]], fields: Sequence[str] | None = None, 
     """Spreadsheet-safe CSV/TSV; JSON/LDIF preserve unmodified values."""
     keys = collect_keys(rows, fields)
     buf = io.StringIO()
-    w = csv.writer(buf, delimiter=delimiter, lineterminator="\n")
+    w = csv.writer(buf, delimiter=delimiter, lineterminator="\n", quoting=csv.QUOTE_ALL)
     w.writerow([spreadsheet_cell(k) for k in keys])
     for r in rows:
         w.writerow([spreadsheet_cell(r.get(k)) for k in keys])
@@ -370,10 +370,11 @@ def to_csv(rows: Sequence[dict[str, Any]], fields: Sequence[str] | None = None, 
 def spreadsheet_cell(value: Any) -> str:
     text = flatten_value(value)
     stripped = text.lstrip("".join(chr(c) for c in range(33)) + "\x7f\x85\xa0")
+    safe = text.replace("\x00", "\\x00")  # Python <= 3.10 CSV cannot reliably represent NUL.
     if ((text and (ord(text[0]) < 32 or 127 <= ord(text[0]) < 160))
             or stripped.lstrip().startswith(("=", "+", "-", "@", "＝", "＋", "－", "＠"))):
-        return "'" + text
-    return text
+        return "'" + safe
+    return safe
 
 
 _LDIF_SAFE = re.compile(r"^[\x01-\x09\x0b-\x0c\x0e-\x1f\x21-\x39\x3b\x3d-\x7f][\x01-\x09\x0b-\x0c\x0e-\x7f]*$")

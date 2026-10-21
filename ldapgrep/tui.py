@@ -21,7 +21,7 @@ import shlex
 from dataclasses import dataclass, field, replace
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from rich.console import Group
 from rich.markup import escape
@@ -91,7 +91,7 @@ def profile_choices(settings: Settings) -> list[tuple[str | Text, str]]:
     return choices
 
 
-class LoginScreen(ModalScreen[dict | None]):
+class LoginScreen(ModalScreen[Optional[dict]]):
     """Pick a server (config profile, public test server, demo) and/or enter connection data.
 
     Dismisses with {"demo": True}, {"settings": Settings} or None (cancel)."""
@@ -273,7 +273,7 @@ class LoginScreen(ModalScreen[dict | None]):
             self.focus_next()
 
 
-class ExportScreen(ModalScreen[tuple[str, str, bool] | None]):
+class ExportScreen(ModalScreen[Optional[tuple[str, str, bool]]]):
     """Dismisses with (format, filename, include_query_comment) or None (cancel)."""
 
     BINDINGS = [Binding("escape", "cancel", "Cancel")]
