@@ -1,0 +1,75 @@
+# ldapgrep configuration
+# Keys are case-insensitive. Common alternative spellings (host, base, username, ...) work too.
+# Precedence: this file < environment (LDAPGREP_*) < command line options.
+
+[LDAP]
+# ldap://host:389, ldaps://host:636 or just a host name
+server = ldaps://dc01.example.com:636
+
+# Leave empty to auto-detect from the server (rootDSE defaultNamingContext).
+base_dn = DC=example,DC=com
+
+# Bind identity: a DN, a UPN (user@example.com) or DOMAIN\user together with auth = ntlm.
+bind_dn = CN=svc-ldapgrep,OU=Service Accounts,DC=example,DC=com
+
+# Password options (pick one; or omit all and you will be prompted):
+#   bind_password      = secret
+#   bind_password_file = /etc/ldapgrep.secret
+#   environment:         LDAPGREP_PASSWORD=secret
+bind_password =
+
+# simple | ntlm | anonymous
+auth = simple
+# Use false only for isolated test servers (or --insecure).
+tls_verify = true
+# PEM bundle with your internal CA
+ca_certs_file =
+# Upgrade ldap:// to TLS before authentication.
+start_tls = false
+# Unsafe: enable only for isolated plaintext test networks.
+allow_plaintext_auth = false
+
+timeout = 10
+page_size = 500
+
+# Shared budgets per group/memberof traversal, including paged requests.
+# All must be positive; exhausting a budget returns an explicit incomplete-result error.
+group_max_queries = 1000
+group_max_entries = 10000
+group_max_depth = 64
+group_max_seconds = 60
+
+# Optional defaults
+default_group_dn = CN=All Staff,OU=Groups,DC=example,DC=com
+groups_ou = OU=Groups,DC=example,DC=com
+users_ou =
+
+# auto | ad | ldap   (ldap = OpenLDAP / 389ds / Samba without AD schema)
+flavor = auto
+
+# Reading the schema lets ldapgrep validate attribute names and decode values nicely,
+# but costs a few seconds per call on large directories. Set false (or use --no-schema) to skip it.
+load_schema = true
+
+# Company specific attributes that should be shown in --view detail/full
+user_extra_attributes = employeeID, division, company, manager
+group_extra_attributes = managedBy, info
+
+date_format = %d.%m.%Y %H:%M:%S
+min_search_length = 2
+
+# Additional environments: select with --profile test
+[profile:test]
+server = ldaps://dc-test.example.com
+base_dn = DC=test,DC=example,DC=com
+bind_dn = CN=svc-ldapgrep,OU=Service Accounts,DC=test,DC=example,DC=com
+tls_verify = true
+
+# Built-in profiles for public test servers need no entry here:
+#   --profile forumsys   ldap.forumsys.com (OpenLDAP, read-only demo account)
+#   --profile debian     db.debian.org (OpenLDAP, anonymous)
+#   --profile freeipa    ipa.demo1.freeipa.org (FreeIPA demo, self-signed certificate)
+# No server configured: no connection is made; use --demo for an offline demonstration.
+# Public profiles ignore LDAPGREP_* overrides. Forumsys requires --allow-plaintext-auth;
+# FreeIPA requires a trusted CA (--ca-file), or explicitly --insecure for its demo certificate.
+# A [profile:forumsys] section in this file would replace the built-in one.

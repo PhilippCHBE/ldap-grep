@@ -1,0 +1,10 @@
+# core
+ldap3>=2.9.1
+pyasn1>=0.6.4
+rich>=13.0
+
+# optional: interactive console GUI (`ldapgrep tui`)
+textual>=0.80
+
+# optional: copy DNs to the clipboard from the GUI
+pyperclip>=1.8

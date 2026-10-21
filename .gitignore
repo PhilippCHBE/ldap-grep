@@ -1,0 +1,41 @@
+# real configuration contains credentials - never commit it
+ldap-grep.conf
+ldapgrep.conf
+*.secret
+
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# exports
+*_20[0-9][0-9][0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9][0-9][0-9].csv
+*_20[0-9][0-9][0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9][0-9][0-9].json
+
+# local tool state
+.codex/
+
+# Private work products and credentials (public examples stay versioned)
+/.private/
+/exports/
+/private-reports/
+.env
+.env.*
+!.env.example
+*.local.conf
+*.key
+*.p12
+*.pfx
+*.kdbx
+id_rsa
+id_ed25519
+
+# Generated exports: all supported formats, including subsecond timestamps
+*_20??????_??????*.csv
+*_20??????_??????*.json
+*_20??????_??????*.tsv
+*_20??????_??????*.ldif
+*_20??????_??????*.yaml
+*_20??????_??????*.txt

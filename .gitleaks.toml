@@ -1,0 +1,24 @@
+title = "ldapgrep secret protection"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "ldap-bind-password"
+description = "Literal LDAP bind passwords, including short nonrandom passwords"
+regex = '''(?i)(?:bind_password|ldapgrep_password)["']?\s*[:=]\s*["']([^"'\r\n]{6,})["']'''
+secretGroup = 1
+[[rules.allowlists]]
+description = "Exact public demo values, synthetic fixtures and field aliases only"
+regexTarget = "secret"
+regexes = ['''^(?:password|Secret123|synthetic(?:[-_][A-Za-z0-9_-]+)?|AUDIT_SYNTHETIC_ONLY|bind_password|bind_password_file)$''']
+
+[[rules]]
+id = "ldap-config-password"
+description = "Plain LDAP config password assignments"
+regex = '''(?im)^\s*(?:bind_password|ldapgrep_password)\s*=\s*([^\r\n#;]{6,})$'''
+secretGroup = 1
+[[rules.allowlists]]
+description = "Explicit example placeholders and synthetic test values"
+regexTarget = "secret"
+regexes = ['''^["']?(?:demo|password|Secret123|synthetic(?:[-_][A-Za-z0-9_-]+)?|AUDIT_SYNTHETIC_ONLY|s3cret|xxxxxx)["']?\s*$''']

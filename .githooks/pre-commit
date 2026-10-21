@@ -1,0 +1,2 @@
+#!/bin/sh
+exec python "$(git rev-parse --show-toplevel)/scripts/secret_scan.py" staged
