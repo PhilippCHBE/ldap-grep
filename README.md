@@ -38,12 +38,14 @@ Version 2.3.1 - see [CHANGELOG.md](CHANGELOG.md).
 
 ## Quick start
 
+From a local checkout or extracted GitHub source archive:
+
 ```bash
-pip install -r requirements.txt
+python -m pip install ".[tui]"
 ldapgrep config --example > ldap-grep.conf    # fill in server / bind_dn (password optional, see below)
-python3 ldap-grep.py --config ldap-grep.conf check       # DNS, port, TLS, bind
-python3 ldap-grep.py --config ldap-grep.conf user meier  # first real query
-python3 ldap-grep.py --config ldap-grep.conf tui         # the console GUI
+ldapgrep --config ldap-grep.conf check       # DNS, port, TLS, bind
+ldapgrep --config ldap-grep.conf user meier  # first real query
+ldapgrep --config ldap-grep.conf tui         # the console GUI
 ```
 
 No server at hand? Every command accepts `--demo` and runs against a built-in, fictional directory:
@@ -59,15 +61,19 @@ python3 ldap-grep.py --demo tui
 Pure Python, no C libraries (uses [`ldap3`](https://ldap3.readthedocs.io)), Python 3.9 or newer,
 Linux / macOS / Windows.
 
+Version 2.3.1 is distributed through [GitHub Releases](https://github.com/PhilippCHBE/ldap-grep/releases).
+PyPI publication is deferred; install from the repository or an extracted release source archive.
+
 ```bash
-pipx install "ldapgrep[tui]"               # from PyPI, isolated on your PATH -> `ldapgrep`
+git clone https://github.com/PhilippCHBE/ldap-grep.git
+cd ldap-grep
+python -m pip install ".[tui]"             # installs the command and console GUI
 
-# or from a checkout:
-pip install -r requirements.txt            # ldap3, rich, textual (GUI), pyperclip (clipboard, optional)
+# CLI only, without the optional GUI:
+python -m pip install .
 
-# or install it as a command on your PATH:
-pip install .                              # -> `ldapgrep`
-pip install ".[tui]"                       # ... with the console GUI
+# Or run directly from the source directory:
+python -m pip install -r requirements.txt
 ```
 
 Without installing, run `python3 ldap-grep.py ...` (or `python3 -m ldapgrep ...`) from the checkout.

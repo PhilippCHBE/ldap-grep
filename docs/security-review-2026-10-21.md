@@ -52,7 +52,7 @@ Zusätzliche Härtungen für Version 2.3.1 nach dem Interview:
   Praxistest blockierte beide Git-Operationen; Dateibaum-/Historienscans ohne Fund.
 - Actions auf vollständige SHAs festgelegt; contents:read als Standard; getrennte
   Release-Prüfung und minimaler OIDC-Publishjob. Upload bis zur Plattform-Einrichtung
-  zusätzlich über PYPI_PUBLISH_ENABLED deaktiviert. Freigabeart noch zu entscheiden.
+  zusätzlich über PYPI_PUBLISH_ENABLED deaktiviert. PyPI ist ausdrücklich auf später verschoben.
 - Wirkungsloses or True ersetzt; echte lokale TLS-Tests, sichere CA-/Hostname-Hinweise,
   Exportrechte- und Shell-Quoting-Tests. Optionaler Samba/AD-Testplan dokumentiert.
 
@@ -60,6 +60,9 @@ Abschlussprüfung: **186 Tests bestanden, 3 übersprungen** unter Windows/Python
 mit pyasn1 0.6.4. Avast ersetzt lokale TLS-Zertifikate; die drei Zertifikatstests
 erkennen dies ausdrücklich. Zusätzliche isolierte Linux-Prüfung: **188 bestanden,
 1 übersprungen** (PowerShell dort nicht vorhanden); alle TLS- und Unix-Rechtefälle bestanden.
+Die GitHub-CI hat zusätzlich die vollständige Matrix Python 3.9–3.13 sowie Dependency-Audit
+und Secret-Scan erfolgreich ausgeführt. CSV/TSV-CR-/NUL-Fälle und GUI-Basisklassen wurden
+für Python 3.9/3.10 korrigiert; die README-Tabelle wurde mit dem GitHub-Renderer geprüft.
 Wheel und Source-Archiv wurden lokal neu gebaut; Quellgleichheit, Decoder-Mindestversion,
 enthaltene Sicherheitsregressionen und CI-YAML wurden geprüft. Es wurde nichts veröffentlicht.
 

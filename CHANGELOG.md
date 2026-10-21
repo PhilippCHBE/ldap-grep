@@ -40,6 +40,7 @@ All notable changes to ldapgrep.
 - Display the release version in the GUI help dialog.
 - Use the public maintainer handle in package and copyright metadata; omit the personal email.
 - Keep the README option table contiguous and escape pipes inside option alternatives.
+- Document installation from GitHub; defer PyPI publication.
 - Quote every CSV/TSV cell and display NUL bytes as `\x00`, including on Python 3.9/3.10;
   retain original values in JSON/LDIF. Use Python 3.9-compatible GUI base-class type parameters.
 

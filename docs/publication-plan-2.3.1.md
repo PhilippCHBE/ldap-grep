@@ -2,7 +2,8 @@
 
 Die ausgewählten Maßnahmen sind lokal umgesetzt. Das neue Ziel ist
 https://github.com/PhilippCHBE/ldap-grep und wurde zunächst privat angelegt.
-GitHub-/PyPI-Plattformregeln und die zusätzliche PyPI-Freigabe sind noch offen.
+Ausgewählt ist zunächst ausschließlich eine Veröffentlichung auf GitHub; PyPI folgt später.
+GitHub-Schutzregeln sind noch einzurichten; der PyPI-Upload bleibt deaktiviert.
 Es wurde noch kein Release und kein PyPI-Paket veröffentlicht.
 
 ## Bereits umgesetzt
@@ -151,7 +152,7 @@ Lokale Hooks sind übergehbar; serverseitige erforderliche CI-Prüfungen ergänz
 | Exportdateien | Private Standardablage, exklusive Neuerstellung, Symlinks/Reparse-Points ablehnen. Unix 0600/0700; Windows-ACL getestet. Mikrosekunden im automatischen Dateinamen. | Ausgewählt und umgesetzt; immer neuer Name, kein Überschreibmodus. |
 | Exportmetadaten | Query-Kommentar standardmäßig aus, nur explizites Opt-in. JSON oder CSV anonymisiert keine Datensätze. | Ausgewählt und umgesetzt; kein zusätzlicher Supportexport. |
 | Shell-Kommandos | PowerShell- und POSIX-Varianten korrekt quoten und beschriften. Apostrophe und Shell-Metazeichen sind getestet. Keine automatische Ausführung. | Beide Varianten ausgewählt und umgesetzt. |
-| CI | Actions auf volle SHAs; contents:read als Standard. Separater Test-/Scan-/Buildjob und minimaler Publishjob, nur dort id-token:write. Stabile vX.Y.Z-Tags, Paketversion und main-Abstammung prüfen. | YAML umgesetzt. Zusätzliche manuelle PyPI-Freigabe noch offen. |
+| CI | Actions auf volle SHAs; contents:read als Standard. Separater Test-/Scan-/Buildjob und minimaler Publishjob, nur dort id-token:write. Stabile vX.Y.Z-Tags, Paketversion und main-Abstammung prüfen. | YAML umgesetzt. PyPI ausdrücklich auf später verschoben; Upload deaktiviert. |
 | Tests | Echte Detailpanel-Assertion, lokale TLS-Tests mit Positivkontrolle, unbekannter CA, falschem Host und verweigertem StartTLS. Optionale Samba/AD-Anleitung. | Lokale Tests ausgewählt und umgesetzt; kein Samba-CI oder Produktiv-AD-Test. |
 
 Die vollständige Suite bestand lokal mit **186 Tests und 3 expliziten TLS-Skips** unter
@@ -161,8 +162,9 @@ Linux erfolgreich; die Windows-DACL und PowerShell-Quoting-Prüfung liefen unter
 
 Zertifikatfehler sollen zuerst auf CA-/Hostname-Konfiguration verweisen. --insecure bleibt
 eine bewusst benannte Testausnahme; Fehlermeldungen sollen es nicht als Standardlösung empfehlen.
-Branch-Protection, GitHub-Environment und PyPI Trusted Publisher müssen im neuen
-Repository eingerichtet und geprüft werden; YAML allein weist diese Plattformkonfiguration nicht nach.
+Branch-Protection muss im neuen Repository eingerichtet und geprüft werden; YAML allein
+weist diese Plattformkonfiguration nicht nach. GitHub-Environment und PyPI Trusted Publisher
+sind erst vor der späteren PyPI-Veröffentlichung einzurichten.
 Der Upload ist zusätzlich gesperrt, solange die Repository-Variable `PYPI_PUBLISH_ENABLED`
 nicht ausdrücklich `true` ist. Erst nach Wahl der Freigabeart und Einrichtung aller
 Plattformregeln aktivieren. Empfohlen: im Environment `pypi` einen Required Reviewer
